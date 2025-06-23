@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Convert a 360° panorama to six cubemap faces.">
+  <title>Vayomni Cut - For Member Pixel Blade</title>
+  <style>
+    :root {
+      --bg: #121212;
+      --card: #1e1e1e;
+      --accent: #00ffff;
+      --text: #f0f0f0;
+      --muted: #aaa;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 2em;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    header, footer {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 0.2em;
+    }
+
+    aside {
+      color: var(--muted);
+    }
+
+    section {
+      background-color: var(--card);
+      padding: 1.5em;
+      border-radius: 12px;
+      margin: 1.5em 0;
+    }
+
+    label, legend {
+      display: block;
+      margin: 0.5em 0 0.2em;
+      font-weight: 500;
+    }
+
+    input[type="file"], input[type="number"] {
+      padding: 0.4em;
+      margin-top: 0.5em;
+      background: #2c2c2c;
+      border: 1px solid #444;
+      color: white;
+      border-radius: 6px;
+    }
+
+    fieldset {
+      border: 1px solid #333;
+      padding: 1em;
+      border-radius: 8px;
+      margin-top: 1em;
+    }
+
+    #cubemap {
+      width: 100%;
+      max-width: 800px;
+      height: 600px;
+      border: 2px dashed #444;
+      background: #202020;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      margin: auto;
+    }
+
+    #generating {
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    footer small {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Vayomni Cut</h1>
+    <aside>For Member Pixel Blade - Convert 360° panoramas to cubemap</aside>
+  </header>
+
+  <main>
+    <section>
+      <h2>Upload Panorama</h2>
+      <label>
+        Upload your equirectangular image:
+        <input id="imageInput" type="file" accept="image/*">
+      </label>
+      <ul>
+        <li>Image must be 2:1 aspect ratio (width = 2 × height).</li>
+        <li>Supports .png or .jpg</li>
+      </ul>
+    </section>
+
+    <section class="settings">
+      <h2>Settings</h2>
+      <label>Cube Rotation (°):
+        <input id="cubeRotation" type="number" min="0" max="359" value="180">
+      </label>
+
+      <fieldset>
+        <legend>Interpolation Type</legend>
+        <label><input type="radio" name="interpolation" value="lanczos" checked> Lanczos (Best Quality)</label>
+        <label><input type="radio" name="interpolation" value="cubic"> Cubic (Sharper)</label>
+        <label><input type="radio" name="interpolation" value="linear"> Linear (Faster)</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Output Format</legend>
+        <label><input type="radio" name="format" value="png" checked> PNG</label>
+        <label><input type="radio" name="format" value="jpg"> JPEG</label>
+      </fieldset>
+    </section>
+
+    <section>
+      <h2>Generated Cubemap</h2>
+      <p>Click each face to download:</p>
+      <p>Names will be: <code>cubemap_0.png</code> to <code>cubemap_5.png</code></p>
+      <div id="cubemap">
+        <b id="generating" style="visibility:hidden">Generating...</b>
+        <output id="faces"></output>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      <small>By <a href="https://github.com/jaxry">Lucas Crane</a></small><br>
+      <small>Design modified for <strong>Vayomni Cut</strong></small>
+    </p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+      </html>
